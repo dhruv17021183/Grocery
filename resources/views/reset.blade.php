@@ -12,7 +12,6 @@
                         @csrf                   
                         <div class="row mb-3">
                             <label for="number" class="col-md-4 col-form-label text-md-end">{{ __('Otp') }}</label>
-                        
                             <div class="col-md-6">
                                 <input id="number" type="number" class="form-control @error('number') is-invalid @enderror" name="otp" autofocus>
                                 <button type="submit">Submit</button>

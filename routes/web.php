@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\OtpController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,4 +23,7 @@ Route::get('/', function () {
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/reset',[OtpController::class,'Otp']);
+// Route::resource('/items',PostController::class);
+Route::resource('posts',PostController::class)->only(['index','show','create','store','edit','update','destroy']);
+
 Auth::routes();
