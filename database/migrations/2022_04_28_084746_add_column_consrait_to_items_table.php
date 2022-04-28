@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnToItemsTable extends Migration
+class AddColumnConsraitToItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class AddColumnToItemsTable extends Migration
     public function up()
     {
         Schema::table('items', function (Blueprint $table) {
-            $table->string('img_url');
+            $table->unsignedBigInteger('user_id')->index();
         });
     }
 
@@ -26,7 +26,7 @@ class AddColumnToItemsTable extends Migration
     public function down()
     {
         Schema::table('items', function (Blueprint $table) {
-            $table->dropColumn('img_url');
+            $table->dropColumn('user_id');
         });
     }
 }

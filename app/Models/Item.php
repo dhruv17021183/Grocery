@@ -14,5 +14,16 @@ class Item extends Model
         'item_category',
         'price',
         'status',
+        'user_id',
     ];
+    
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User');
+    }
+
+    public function image()
+    {
+        return $this->morphOne('App\Models\Image','imageable');
+    }
 }

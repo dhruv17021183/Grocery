@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnToItemsTable extends Migration
+class CreateImagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AddColumnToItemsTable extends Migration
      */
     public function up()
     {
-        Schema::table('items', function (Blueprint $table) {
-            $table->string('img_url');
+        Schema::create('images', function (Blueprint $table) {
+            $table->id();
+            $table->string('path');
+            $table->morphs('imageable');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ class AddColumnToItemsTable extends Migration
      */
     public function down()
     {
-        Schema::table('items', function (Blueprint $table) {
-            $table->dropColumn('img_url');
-        });
+        Schema::dropIfExists('images');
     }
 }

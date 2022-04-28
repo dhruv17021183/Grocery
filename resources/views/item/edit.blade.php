@@ -1,6 +1,6 @@
 @include('layouts')
 
-<form action="{{ route('items.update',['item' => $item->id] )}}" method="POST">
+<form action="{{ route('items.update',['item' => $item->id] )}}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT') 
 

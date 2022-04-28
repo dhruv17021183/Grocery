@@ -4,6 +4,8 @@
     @csrf
 
     @include('item.form')
-
-    <button type="submit" class="btn btn-primary btn-block">Create!</button>
+    
+    @errors @enderrors
+    <button type="submit" class="btn btn-primary btn-block mr">Create!</button>
+    
 </form>

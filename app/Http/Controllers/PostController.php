@@ -4,10 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreItem;
 use App\Models\Item;
+use App\Models\Image;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Gate;
+
+
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')
+            ->only(['create', 'store', 'edit', 'update', 'destroy']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +26,7 @@ class PostController extends Controller
     public function index()
     {
         $items = Item::all();
-        return view('item.index',['items' => $items]);
+        return view('item.index', ['items' => $items]);
     }
 
     /**
@@ -26,7 +36,12 @@ class PostController extends Controller
      */
     public function create()
     {
-      return view('item.create');
+        if (Gate::denies('create-item'))         //users instance will pass automatically by laravel
+        {
+            abort(403, "Unauthorized Action");
+        };
+
+        return view('item.create');
     }
 
     /**
@@ -37,17 +52,36 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        // $validate = $request->validate();
+        $request->validate([
+            'name' => 'required|min:2|max:20',
+            'content' => 'required',
+            'category' => 'required',
+            'price' => 'required',
+            'status' => 'required',
+
+        ]);
+
+
         $item = new Item;
         $item->item_name = $request->input('name');
         $item->item_content = $request->input('content');
         $item->item_category = $request->input('category');
         $item->price = $request->input('price');
         $item->status = $request->input('status');
+        $item['user_id'] = $request->user()->id;
         $item->save();
-       
-        return redirect()->route('items.show',['item' => $item->id]);
+
+        if ($request->hasFile('thumbnail')) {
+            $path = $request->file('thumbnail')->store('thumbnails');
+
+            $item->image()->save(
+                Image::make(['path' => $path])
+            );
+        }
+
+        $request->session()->flash('status', 'Items Created Successfully');
+
+        return redirect()->route('items.show', ['item' => $item->id]);
     }
 
     /**
@@ -59,9 +93,8 @@ class PostController extends Controller
     public function show($id)
     {
         $item = Item::findorFail($id);
-       
-        return view('item.show',['item' => $item]);
-        
+
+        return view('item.show', ['item' => $item]);
     }
 
     /**
@@ -73,7 +106,14 @@ class PostController extends Controller
     public function edit($id)
     {
         $item = Item::findorFail($id);
-        return view('item.edit',['item' => $item]);
+
+        // if(Gate::denies('update-post',$item))         //users instance will pass automatically by laravel
+        // {
+        //     abort(403,"Unauthorized Action");
+        // }; 
+        $this->authorize('items.update', $item);
+
+        return view('item.edit', ['item' => $item]);
     }
 
     /**
@@ -86,14 +126,35 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         $item = Item::findorFail($id);
+        // if(Gate::denies('update-post',$item))         //users instance will pass automatically by laravel
+        // {
+        //     abort(403,"Unauthorized Action");
+        // }; 
+        $this->authorize('items.update', $item);
+
         $item->item_name = $request->input('name');
         $item->item_content = $request->input('content');
         $item->item_category = $request->input('category');
         $item->price = $request->input('price');
         $item->status = $request->input('status');
+        // $item['user_id'] = $request->user()->id;
         $item->save();
-        return redirect()->route('items.show',['item' =>$item->id]);
 
+        if ($request->hasFile('thumbnail')) {
+            $path = $request->file('thumbnail')->store('thumbnails');
+
+            if ($item->image) {
+                Storage::delete($item->image->path);
+                $item->image->$path = $path;
+                $item->image->save();
+            } else {
+                $item->image()->save(
+                    Image::make(['path' => $path])
+                );
+            }
+        }
+
+        return redirect()->route('items.show', ['item' => $item->id]);
     }
 
     /**
@@ -104,9 +165,14 @@ class PostController extends Controller
      */
     public function destroy(Request $request, $id)
     {
-        dd($id);
-        // $item = Item::findorFail($id);
-        // $item->delete();
-        // return redirect()->route('items.index');
+        $item = Item::findorFail($id);
+        // if(Gate::denies('delete-post',$item))         //users instance will pass automatically by laravel
+        // {
+        //     abort(403,"Unauthorized Action");
+        // }; 
+        $this->authorize('items.delete', $item);
+
+        $item->delete();
+        return redirect()->route('items.index');
     }
 }
