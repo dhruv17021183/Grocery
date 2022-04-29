@@ -64,7 +64,15 @@
 
                             </ul>
                         </div>
-
+                        <div class="container">
+                            <button class="btn btn-secondary" type="button" id="dropdownMenuButton1">
+                                MyCart
+                            </button>
+                            {{-- <a href="{{ route('users.cart', ['item' => $items->id]) }}" class="btn btn-primary mt-2">
+                                My Cart
+                            </a> --}}
+                          
+                        </div>
 
                         @guest
                         @if (Route::has('login'))

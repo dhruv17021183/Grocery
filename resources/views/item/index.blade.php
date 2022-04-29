@@ -18,7 +18,7 @@
           <div class="card box" style="width: 15rem;">
                <img src="{{ $item->image ? $item->image->url() : '' }}" class="card-img-top" alt="...">
                <div class="card-body">
-                    <h5 class="card-title">{{ $item->item_name }}</h5>
+                    <h5 class="card-title"><a href="{{ route('items.show', ['item' => $item->id]) }}" class="text-decoration-none">{{ $item->item_name }}</a></h5>
                     <p class="card-text">{{ $item->item_content }}</p>
                     <p class="card-text">{{ $item->item_category }}</p>
                </div>
@@ -27,7 +27,11 @@
                     <li class="list-group-item">{{ $item->status }}</li>
                     
                     @can('view',$item)
-                         <button type="button" class="btn btn-success">Add To Cart</button>
+                         {{-- <button type="button" class="btn btn-success">Add To Cart</button> --}}
+                         <input type="hidden" value="{{ $item->id }}" name="item_id"/>
+                         <a href="{{ route('items.cart', ['item' => $item->id]) }}" class="btn btn-primary mt-2">
+                              Add To Cart
+                         </a>
                     @endcan
 
                     @can('update',$item)
@@ -44,6 +48,7 @@
                               <button type="submit" class="btn btn-danger mt-2">Delete</button>
                          </form>
                     @endcan
+                   
                     
                </ul>
                

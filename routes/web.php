@@ -2,7 +2,10 @@
 
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\itemReviewController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ItemCartController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +27,10 @@ Route::get('/', function () {
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/reset',[OtpController::class,'Otp']);
 // Route::resource('/items',PostController::class);
-Route::resource('posts',PostController::class)->only(['index','show','create','store','edit','update','destroy']);
+Route::resource('items',PostController::class)->only(['index','show','create','store','edit','update','destroy']);
+Route::resource('items.reviews',itemReviewController::class)->only(['store']);
+Route::get('Addcart',[ItemCartController::class,'usercart'])->name('items.cart');
+Route::get('mcart',[ItemCartController::class,'mycart'])->name('users.cart');
+
 
 Auth::routes();

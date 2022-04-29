@@ -15,11 +15,20 @@ class Item extends Model
         'price',
         'status',
         'user_id',
+        'item_id',
     ];
     
     public function user()
     {
         return $this->belongsTo('App\Models\User');
+    }
+    public function cart()
+    {
+        return $this->belongsTo('App\Models\Cart');
+    }
+    public function reviews()
+    {
+        return $this->hasMany('App\Models\Review');
     }
 
     public function image()

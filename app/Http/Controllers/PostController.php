@@ -61,7 +61,6 @@ class PostController extends Controller
 
         ]);
 
-
         $item = new Item;
         $item->item_name = $request->input('name');
         $item->item_content = $request->input('content');
@@ -93,8 +92,7 @@ class PostController extends Controller
     public function show($id)
     {
         $item = Item::findorFail($id);
-
-        return view('item.show', ['item' => $item]);
+        return view('item.show', ['item' => $item]);  //we passing item to the show view
     }
 
     /**
