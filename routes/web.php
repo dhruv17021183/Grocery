@@ -32,6 +32,6 @@ Route::resource('items.reviews',itemReviewController::class)->only(['store']);
 Route::get('Addcart',[ItemCartController::class,'usercart'])->name('items.cart');
 Route::get('mcart',[ItemCartController::class,'mycart'])->name('users.cart');
 Route::delete('deleteCart/{id}',[ItemCartController::class,'removeCart'])->name('remove.cart');
-Route::get('ordernow/{id}',[OrderController::class,'orderdetails'])->name('on');
+Route::get('/ordernow/{id}',[OrderController::class,'orderdetails'])->name('ordernow');
 Route::post('/orderstore/{id}',[OrderController::class,'store'])->name('orderstore');
 Auth::routes();

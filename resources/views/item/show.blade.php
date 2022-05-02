@@ -44,7 +44,7 @@
                          Add To Basket
                     </a>
 
-                    <a href="/ordernow" class="btn btn-success mt-2">
+                    <a href={{"/ordernow/".$item->id}} class="btn btn-success mt-2">
                          Buy Now
                     </a>
 
