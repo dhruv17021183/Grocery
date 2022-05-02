@@ -16,6 +16,7 @@
             </a> --}}
 
           <div class="card box" style="width: 15rem;">
+             
                <img src="{{ $item->image ? $item->image->url() : '' }}" class="card-img-top" alt="...">
                <div class="card-body">
                     <h5 class="card-title"><a href="{{ route('items.show', ['item' => $item->id]) }}" class="text-decoration-none">{{ $item->item_name }}</a></h5>

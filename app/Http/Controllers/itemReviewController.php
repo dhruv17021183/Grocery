@@ -20,6 +20,7 @@ class itemReviewController extends Controller
             
             $review = new Review;
             $review->content = $request->content;
+            $review->rating = $request->rate;
             $review->user_id = $request->user()->id;
             $review->item_id = $item->id;            
             $review->save();
