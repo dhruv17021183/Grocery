@@ -33,6 +33,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
+               
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
@@ -48,22 +49,25 @@
                         </button>
                         @endif--}}
 
+                        <div class="container">
+                            @include('search.search')
+                        </div>
                         <div class="dropdown">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                 Shop By Category
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a class="dropdown-item" href="#">Fruits & vagetable</a></li>
-                                <li><a class="dropdown-item" href="#">Bakery Cakes & Diary</a></li>
-                                <li><a class="dropdown-item" href="#">Snacks & Branded Foods</a></li>
-                                <li><a class="dropdown-item" href="#">Cleaning & House Holds</a></li>
-                                <li><a class="dropdown-item" href="#">Baby Care</a></li>
-                                <li><a class="dropdown-item" href="#">Beauty & Hygiene</a></li>
-                                <li><a class="dropdown-item" href="#">Oil & Masala</a></li>
-                                <li><a class="dropdown-item" href="#">Snacks & Branded Foods</a></li>
+                                <li><a class="dropdown-item" href="/category/Fruits & vagetable">Fruits & vagetable</a></li>
+                                <li><a class="dropdown-item" href="/category/Bakery Cakes & Diary">Bakery Cakes & Diary</a></li>
+                                <li><a class="dropdown-item" href="/category/Snacks & Branded Foods">Snacks & Branded Foods</a></li>
+                                <li><a class="dropdown-item" href="/category/Cleaning & House Holds">Cleaning & House Holds</a></li>
+                                <li><a class="dropdown-item" href="/category/Baby Care">Baby Care</a></li>
+                                <li><a class="dropdown-item" href="/category/Beauty & Hygiene">Beauty & Hygiene</a></li>
+                                <li><a class="dropdown-item" href="/category/Oil & Masala">Oil & Masala</a></li>
 
                             </ul>
                         </div>
+
                         <div class="container">
                             <a href="/mcart" class="btn btn-primary">
                                 My Cart
@@ -89,11 +93,18 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">My Account</a>
+                                <a class="dropdown-item" href="#">My Orders</a>
+                                <a class="dropdown-item" href="/mcart">My Cart</a>
+                                <a class="dropdown-item" href="#">My Rewards</a>
+
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a>
+                                
 
+                            
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
                                 </form>

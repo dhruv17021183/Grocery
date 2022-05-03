@@ -8,8 +8,7 @@ use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Gate;
-
-
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -23,6 +22,20 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function search(Request $request)
+    {
+        $id = DB::table('items')
+                      ->select('*')
+                      ->where('item_name','like',"%$request->search%")
+                      ->orWhere('item_category','like',"%$request->search%")
+                      ->pluck('id')
+                      ->toArray();
+
+        $item = Item::findOrFail($id);
+
+        return view('search.show',['items' => $item]);
+    }
+
     public function index()
     {
         $items = Item::all();
@@ -144,7 +157,8 @@ class PostController extends Controller
 
             if ($item->image) {
                 Storage::delete($item->image->path);
-                $item->image->$path = $path;
+                // dd($item->image->path);
+                $item->image->path = $path;
                 $item->image->save();
             } else {
                 $item->image()->save(
