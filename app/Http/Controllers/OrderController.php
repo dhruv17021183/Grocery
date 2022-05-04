@@ -88,10 +88,13 @@ class OrderController extends Controller
     }
     public function UsersOrder(Request $request)
     {
-        $user = User::find($request->user()->id);
+        // $user = User::find($request->user()->id);
+        // $orders = $user->orders;
         
-        $orders = $user->orders;
-        dd($orders);
+        $myorders = DB::table('orders')->select('*')->where('user_id',$request->user()->id)->where('is_confirm',true)->get();
+        // dd($myorders);
+
+        return view('users.myorder',['orders' => $myorders]);
         
     }
   
