@@ -49,9 +49,9 @@
                         </button>
                         @endif--}}
 
-                        <div class="container">
+                        {{-- <div class="container"> --}}
                             @include('search.search')
-                        </div>
+                        {{-- </div> --}}
                         <div class="dropdown">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                 Shop By Category
@@ -94,7 +94,7 @@
 
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="#">My Account</a>
-                                <a class="dropdown-item" href="#">My Orders</a>
+                                <a class="dropdown-item" href="/myOrders">My Orders</a>
                                 <a class="dropdown-item" href="/mcart">My Cart</a>
                                 <a class="dropdown-item" href="#">My Rewards</a>
 

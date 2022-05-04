@@ -1,6 +1,7 @@
 @include('layouts')
 
 <div class="container row row-cols-1 row-cols-md-2 g-4">
+     
     @foreach($items as $item)
        {{-- <a href="{{ route('items.edit', ['item' => $item->id]) }}" class="btn btn-primary">
             Edit
@@ -54,10 +55,5 @@
                </ul>
                
           </div>
-               
-     {{--    <button type="submit" class="btn btn-primary btn-block">Delete</button>
-         </form> --}}
-
-   
     @endforeach
 </div>

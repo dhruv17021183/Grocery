@@ -106,6 +106,7 @@ class PostController extends Controller
     public function show($id)
     {
         $item = Item::findorFail($id);
+        
         return view('item.show', ['item' => $item]);  //we passing item to the show view
     }
 

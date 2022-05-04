@@ -38,6 +38,8 @@ Route::get('/ordernow/{id}',[OrderController::class,'orderdetails'])->name('on')
 Route::post('/orderstore/{id}',[OrderController::class,'store'])->name('orderstore');
 Route::get('/category/{itemc}',[CategoryWiseController::class,'categorywise'])->name('CategoryWise');
 Route::get('/orderConfirm',[OrderController::class,''])->name('orderConfirm');
-// Route::get('/redeem',[OrderController::class,'reedem'])->name('reedem');
+Route::get('redeem',[OrderController::class,'reedem'])->name('reedem');
 Route::get('search',[PostController::class,'search'])->name('search');
+Route::post('confirm',[OrderController::class,'orderConfirm'])->name('confirm');
+Route::get('myOrders',[OrderController::class,'UsersOrder'])->name('myorders');
 Auth::routes();

@@ -64,7 +64,7 @@
                </p>
                <hr>
           @empty
-               <p>No Comments Yet!</p>
+               <p>No Ratings Yet!</p>
           @endforelse
      </div>
 

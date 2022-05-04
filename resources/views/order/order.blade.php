@@ -1,4 +1,5 @@
 @include('layouts')
+
   <form action="{{'/orderstore/'.$item_id}}" method ="POST" enctype="multipart/form-data">
     @csrf 
     <input type="hidden" name="itemid" value="{{ $item_id }} "/>

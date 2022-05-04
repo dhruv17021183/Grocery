@@ -40,11 +40,14 @@ class ItemCartController extends Controller
         // dd($userId);
         // $cart['user_id'] = $request->user()->id;
         // dd($request->user()->id);
-        $items = DB::table('carts')
+        $id = DB::table('carts')
                     ->join('items','carts.item_id','=','items.id')
                     ->where('carts.user_id',$userId)
                     ->select('items.*')
-                    ->get();
+                    ->get()
+                    ->pluck('id')
+                    ->toArray();
+        $items = Item::findOrFail($id);
         // dd($items);
         return view('cart.mycart', ['items' => $items]);
 
