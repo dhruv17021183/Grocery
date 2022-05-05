@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryWiseController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\PostController;
@@ -26,8 +27,9 @@ Route::get('/', function () {
 
 
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/reset',[OtpController::class,'Otp']);
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
+Route::get('/reset',[OtpController::class,'Otp'])->middleware('auth');
+Route::get('/otpverify',[OtpController::class,'otpverify'])->name('otpverify');
 // Route::resource('/items',PostController::class);
 Route::resource('items',PostController::class)->only(['index','show','create','store','edit','update','destroy']);
 Route::resource('items.reviews',itemReviewController::class)->only(['store']);
@@ -42,4 +44,10 @@ Route::get('redeem',[OrderController::class,'reedem'])->name('reedem');
 Route::get('search',[PostController::class,'search'])->name('search');
 Route::post('confirm',[OrderController::class,'orderConfirm'])->name('confirm');
 Route::get('myOrders',[OrderController::class,'UsersOrder'])->name('myorders');
+
+
+// Admin
+Route::get('AdminOrders',[AdminController::class,'myOrders'])->name('adminorders');
+Route::get('status',[AdminController::class,'status'])->name('status');
+Route::get('dashboard',[AdminController::class,'dashboard'])->name('dashboard');
 Auth::routes();

@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\DB;
 
 class ItemCartController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')
+            ->only(['usercart', 'mycart', 'removeCart']);
+    }
+    
     public function usercart(Item $item,Request $request)
     {
         $cart = new Cart;

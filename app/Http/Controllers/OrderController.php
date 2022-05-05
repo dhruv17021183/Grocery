@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')
+            ->only(['orderdetails', 'store', 'orderConfirm']);
+    }
+
     public function orderdetails($id,Request $request)
     {
         return view('order.order',['item_id' => $id]);
@@ -92,6 +98,7 @@ class OrderController extends Controller
         // $orders = $user->orders;
         
         $myorders = DB::table('orders')->select('*')->where('user_id',$request->user()->id)->where('is_confirm',true)->get();
+
         // dd($myorders);
 
         return view('users.myorder',['orders' => $myorders]);

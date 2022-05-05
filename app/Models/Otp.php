@@ -10,5 +10,6 @@ class Otp extends Model
     use HasFactory;
     protected $fillable = [
         'otp',
+        'MobileNo',
     ];
 }
