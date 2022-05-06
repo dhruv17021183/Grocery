@@ -8,6 +8,7 @@ use App\Http\Controllers\itemReviewController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemCartController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PDFController;
 use App\Models\Order;
 
 /*
@@ -44,10 +45,12 @@ Route::get('redeem',[OrderController::class,'reedem'])->name('reedem');
 Route::get('search',[PostController::class,'search'])->name('search');
 Route::post('confirm',[OrderController::class,'orderConfirm'])->name('confirm');
 Route::get('myOrders',[OrderController::class,'UsersOrder'])->name('myorders');
-
+Route::get('filter',[PostController::class,'filterBypriceLow'])->name('filter');
 
 // Admin
 Route::get('AdminOrders',[AdminController::class,'myOrders'])->name('adminorders');
+Route::post('Orders',[AdminController::class,'cityorder'])->name('cityorder');
 Route::get('status',[AdminController::class,'status'])->name('status');
 Route::get('dashboard',[AdminController::class,'dashboard'])->name('dashboard');
+Route::get('generate-pdf', [OrderController::class, 'generatePDF'])->name('generatewqapdf');
 Auth::routes();

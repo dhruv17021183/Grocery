@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
@@ -15,9 +16,24 @@ class AdminController extends Controller
                             ->where('orders.is_confirm',true)
                             ->select('*')
                             ->get();
-        // dd($orders);
+
+        $date1 = Carbon::now()->format('Y-m-d');
 
         return view('admin.orders',['orders' => $orders]);
+    }
+    public function cityorder(Request $request)
+    {
+        
+        $city = DB::table('items')
+                         ->join('orders','orders.item_id','=','items.id')
+                         ->where('items.user_id',$request->user()->id)
+                         ->where('orders.is_confirm',true)
+                         ->where('orders.city',$request->city)
+                         ->select('*')
+                         ->get();
+
+        return view('admin.cityorder',['orders' => $city]);
+
     }
     public function status(Request $request)
     {
@@ -36,10 +52,7 @@ class AdminController extends Controller
                             ->get();
                             
         $orders = DB::table('orders')->select('status')->where('status','<>','Delivered')->get()->count();           // Pending orders
-        
-        
-        // dd($orders);
-        // dd($orders);
+
         return view('admin.dashboard',['orders' => $revenue,'orders' => $orders]);
     }
 }

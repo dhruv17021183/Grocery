@@ -22,6 +22,10 @@ class Item extends Model
     {
         return $this->belongsTo('App\Models\User');
     }
+    public function order()
+    {
+        return $this->hasMany('App\Models\Order')->latest();
+    }
     public function cart()
     {
         return $this->belongsTo('App\Models\Cart');

@@ -1,5 +1,17 @@
 @include('layouts.app')
 <div class="container">
+    <form method="post" action="{{ route('cityorder') }}" >
+        @csrf
+        {{-- <input type="hidden" value="{{ $orders->item_id }}" name="item_id">
+        <input type="hidden" value="{{ $orders->user_id }}" name="user_id"> --}}
+
+            {{-- <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                Filter
+            </button> --}}
+            <input type="text" name="city" class="form-control">
+           <button type="submit" class="btn btn-success">Filter</button>
+    </form>
+
     <table class="table table-dark table-striped">
             <thead>
             <tr>
@@ -7,6 +19,7 @@
                 <th scope="col">UserName</th>
                 <th scope="col">Address</th>
                 <th scope="col">State</th>
+                <th scope="col">City</th>
                 <th scope="col">Pincode</th>
                 <th scope="col">Item Name</th>
                 <th scope="col">Quantity</th>
@@ -22,6 +35,7 @@
                     <td>Mark</td>
                     <td>{{ $order->address }}</td>
                     <td>{{ $order->states }}</td>
+                    <td>{{ $order->city }}</td>
                     <td>{{ $order->pincode }}</td>
                     <td>{{ $order->item_name }}</td>
                     <td>{{ $order->qty }}</td>

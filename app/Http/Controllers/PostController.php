@@ -17,6 +17,22 @@ class PostController extends Controller
         $this->middleware('auth')
             ->only(['create', 'store', 'edit', 'update', 'destroy']);
     }
+    public function filterBypriceLow(Request $request)
+    {
+        if($request->filter == 'LH')
+        {
+            $itemsLW = Item::orderBy('price','ASC')->get();
+
+            return view('item.filter',['items' =>  $itemsLW]);
+        }
+        else if($request->filter == 'HL')
+        {
+            $itemsHL = Item::orderBy('price', 'DESC')->get();
+
+            return view('item.filter',['items' =>  $itemsHL]);
+        }
+        
+    }
     /**
      * Display a listing of the resource.
      *
@@ -31,9 +47,11 @@ class PostController extends Controller
                       ->pluck('id')
                       ->toArray();
 
+        $search = $request->search;
+        // dd($search);
         $item = Item::findOrFail($id);
 
-        return view('search.show',['items' => $item]);
+        return view('search.show',['items' => $item,'search' => $search]);
     }
 
     public function index()

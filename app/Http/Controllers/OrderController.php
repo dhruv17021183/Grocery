@@ -7,6 +7,7 @@ use App\Models\Item;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 class OrderController extends Controller
 {
@@ -29,7 +30,9 @@ class OrderController extends Controller
             'qty' => 'required',
             'address' => 'required',
             'states' => 'required',
+            'city' => 'required',
             'pincode' => 'required',
+            'MN' => 'required',
         ]);
 
         // $id = DB::table('items')->select('*')->where('id','=',$request->itemid)->get()->pluck('id');
@@ -42,6 +45,8 @@ class OrderController extends Controller
         $order->qty = $request->qty;
         $order->address = $request->address;
         $order->states = $request->states;
+        $order->city = $request->city;
+        $order->MobileN = $request->MN;
         $order->pincode = $request->pincode;
         $order['user_id'] = $request->user()->id;
         $order->item_id = $request->itemid;
@@ -103,6 +108,26 @@ class OrderController extends Controller
 
         return view('users.myorder',['orders' => $myorders]);
         
+    }
+    public function generatePDF(Request $request)
+    {
+        // dd($request->user()->id);
+
+        // $data = [
+        //     'title' => 'Welcome to ItSolutionStuff.com',
+        //     'date' => date('m/d/Y')
+        // ];
+          
+        // $pdf = PDF::loadView('pdf.mypdf', $data);
+    
+        
+        // return $pdf->download('Your_Bill.pdf');
+        // foreach ($users as $user) 
+        // {
+        //     //$product->skus is a collection of Sku models
+        //     dd( $user->orders );
+        // }
+        // return view('pdf.mypdf',['users' => $users]);
     }
   
 }

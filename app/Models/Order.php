@@ -20,5 +20,9 @@ class Order extends Model
     {
         $this->belongsTo('App\Model\User');
     }
+    public function items()
+    {
+        $this->belongsTo('App\Models\Item');
+    }
 
 }

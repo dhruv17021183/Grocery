@@ -1,6 +1,5 @@
 @include('layouts')
 
-<h1>You Search For {{ $search}}</h1>
 <div class="container row row-cols-1 row-cols-md-2 g-4">
      
     @foreach($items as $item)
@@ -50,16 +49,9 @@
                               @method('DELETE')
                               <button type="submit" class="btn btn-danger mt-2">Delete</button>
                          </form>
-                    @endcan
-                   
-                    
+                    @endcan 
                </ul>
                
           </div>
-               
-     {{--    <button type="submit" class="btn btn-primary btn-block">Delete</button>
-         </form> --}}
-
-   
     @endforeach
 </div>

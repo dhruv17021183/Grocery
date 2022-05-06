@@ -103,6 +103,7 @@
               </div>
             </div>
 
+            
             <div class="col-md-4">
               <label for="state" class="form-label">State</label>
               <select class="form-select" name="states">
@@ -118,10 +119,24 @@
             </div>
 
             <div class="col-md-3">
+              <label for="city" class="form-label">City</label>
+              <input type="text" class="form-control" name="city" placeholder="">
+              <div class="invalid-feedback">
+                City required.
+              </div>
+            </div>
+            <div class="col-md-3">
               <label for="zip" class="form-label">PinCode</label>
               <input type="text" class="form-control" name="pincode" placeholder="">
               <div class="invalid-feedback">
                 Zip code required.
+              </div>
+            </div>
+            <div class="col-md-3">
+              <label for="number" class="form-label">Mobile Number (Optional)</label>
+              <input type="number" class="form-control" name="MN">
+              <div class="invalid-feedback">
+                Mobile Number
               </div>
             </div>
           </div>

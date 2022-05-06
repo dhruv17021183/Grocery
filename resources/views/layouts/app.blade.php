@@ -35,11 +35,26 @@
 
                     </ul>
 
-                    <div class="container">
-                        <a href="/dashboard" class="btn btn-primary">
-                            Dashboard
-                        </a>
-                    </div>
+                    
+                        <nav class="my-2 my-md-0 mr-md-3">
+                            <a href="/AdminOrders" class="btn btn-primary p-2">
+                                My Orders
+                            </a>
+                    
+                            <a href="/dashboard" class="btn btn-primary p-2">
+                                Dashboard
+                            </a>
+                        
+                            <a href="{{ route('items.create') }}" class="btn btn-primary p-2">
+                                Add Items
+                            </a>
+
+                            <a href="{{ route('items.index') }}" class="btn btn-primary p-2">
+                                My Items
+                            </a>
+                        </nav>
+                   
+                    
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
                         <!-- Authentication Links -->

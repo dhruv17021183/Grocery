@@ -70,10 +70,27 @@
 
                         <div class="container">
                             <a href="/mcart" class="btn btn-primary">
-                                My Cart
+                                Cart
                             </a>
                         </div>
 
+                        <div class="container">
+                            <a href="{{ route('items.index') }}" class="btn btn-primary">
+                                Items
+                            </a>
+                        </div>
+                    <form method="get" action=" {{ route('filter') }}" enctype="multipart/form-data">
+                        <div class="contaner d-flex">   
+                            <select class="form-select" aria-label="Default select example" name="filter">
+                                <option value="LH">Price Low To High</option>
+                                <option value="HL">Price High To Low</option>
+                                <option>Popularity</option>
+                            </select>
+                        
+                            
+                            <button type="submit" class="btn btn-success">Filter</button>
+                        </div>
+                    </form>
                         @guest
                         @if (Route::has('login'))
                         <li class="nav-item">
