@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\orderPurchase;
 use App\Models\Order;
 use App\Models\Item;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use PDF;
 
 class OrderController extends Controller
@@ -24,6 +26,7 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
+        
         
         $request->validate([
 
@@ -60,6 +63,7 @@ class OrderController extends Controller
         ->select('*')
         ->get();
 
+        
         // dd($items);
         return view('order.confirm',['itemId' => $items]);
     
@@ -77,6 +81,13 @@ class OrderController extends Controller
                                         ->where('item_id',$request->itemid)
                                         ->where('is_confirm',true)->get();
 
+        $user = User::findOrFail($request->user()->id)->get();
+
+        Mail::to($user[0]->email)->send(
+            new orderPurchase($orderId)
+        );
+        
+        
         return view('order.place',['userorder' => $orderId]);
     }
     public function reedem(Request $request)
@@ -109,25 +120,10 @@ class OrderController extends Controller
         return view('users.myorder',['orders' => $myorders]);
         
     }
-    public function generatePDF(Request $request)
-    {
-        // dd($request->user()->id);
-
-        // $data = [
-        //     'title' => 'Welcome to ItSolutionStuff.com',
-        //     'date' => date('m/d/Y')
-        // ];
-          
-        // $pdf = PDF::loadView('pdf.mypdf', $data);
     
-        
-        // return $pdf->download('Your_Bill.pdf');
-        // foreach ($users as $user) 
-        // {
-        //     //$product->skus is a collection of Sku models
-        //     dd( $user->orders );
-        // }
-        // return view('pdf.mypdf',['users' => $users]);
-    }
+    // public function generatePDF(Request $request)
+    // {
+    //     return view('pdf.mypdf');
+    // }
   
 }

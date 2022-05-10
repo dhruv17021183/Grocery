@@ -52,5 +52,5 @@ Route::get('AdminOrders',[AdminController::class,'myOrders'])->name('adminorders
 Route::post('Orders',[AdminController::class,'cityorder'])->name('cityorder');
 Route::get('status',[AdminController::class,'status'])->name('status');
 Route::get('dashboard',[AdminController::class,'dashboard'])->name('dashboard');
-Route::get('generate-pdf', [OrderController::class, 'generatePDF'])->name('generatewqapdf');
+// Route::get('generate-pdf', [OrderController::class, 'generatePDF'])->name('generatewqapdf');
 Auth::routes();
