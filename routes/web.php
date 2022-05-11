@@ -7,6 +7,7 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\itemReviewController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemCartController;
+use App\Http\Controllers\ItemLikeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PDFController;
 use App\Models\Order;
@@ -46,6 +47,9 @@ Route::get('search',[PostController::class,'search'])->name('search');
 Route::post('confirm',[OrderController::class,'orderConfirm'])->name('confirm');
 Route::get('myOrders',[OrderController::class,'UsersOrder'])->name('myorders');
 Route::get('filter',[PostController::class,'filterBypriceLow'])->name('filter');
+
+//like
+Route::get('likes',[ItemLikeController::class,'il'])->name('likes');
 
 // Admin
 Route::get('AdminOrders',[AdminController::class,'myOrders'])->name('adminorders');

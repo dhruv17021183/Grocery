@@ -51,7 +51,10 @@
                     <p class="card-text">State : {{ $order->states }}</p>
                 </div>
                 <p class="card-text"> Order Status:{{ $order->status }} </p>
-                <a href="/items" class="btn btn-primary">Go To Items</a>
+                {{-- <a href="/items" class="btn btn-primary">Go To Items</a> --}}
+                <a href={{ "/items/".$order->item_id }} class="btn btn-success mt-2">
+                    Go To Item
+               </a>
             </div>
         </div>
     </div>

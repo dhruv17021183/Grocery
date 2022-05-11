@@ -25,5 +25,5 @@
     @else
         <a href="{{ route('login')}}">Sign-in</a> Item Reviewed!
     @endauth
-    </div>
+</div>
     <hr/>

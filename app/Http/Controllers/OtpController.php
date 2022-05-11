@@ -42,7 +42,6 @@ class OtpController extends Controller
         $Number = $MobileNumber[0]->MobileNumber;
 
         $otp = DB::table('otps')->select('otp')->where('MobileNo',$Number)->get()->pluck('otp')->toArray();
-        // dd($otp[0]);
         
         if($reqOtp === $otp[0])
         {

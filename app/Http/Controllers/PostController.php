@@ -56,7 +56,8 @@ class PostController extends Controller
 
     public function index()
     {
-        $items = Item::all();
+        $items = Item::withCount('likes')->with('likes')->get();
+        // dd($items);
         
         return view('item.index', ['items' => $items]);
     }
@@ -121,11 +122,36 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id,Request $request)
     {
         $item = Item::findorFail($id);
         
-        return view('item.show', ['item' => $item]);  //we passing item to the show view
+        $is_confirm = DB::table('orders')->select('*')->where('user_id',$request->user()->id)->where('item_id',$item->id)->get();
+   
+        if(!isset($is_confirm[0]->is_confirm))     //when receives blank object
+        {
+            $success = false;
+        }
+        else
+        {
+            if(isset($is_confirm[0]->is_confirm) && $is_confirm[0]->status == 'Delivered')
+            {
+                $success = true;
+            }
+            else
+            {
+                $success = false;
+            }
+        }
+
+        return view(
+            'item.show',
+            [
+                'item' => $item,
+                'confirm' => $success,
+            ]
+                            
+        );                          //we passing item to the show view
     }
 
     /**
