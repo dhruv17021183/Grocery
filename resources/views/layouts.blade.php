@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Big Basket') }}</title>
+    <title>{{ config('app.name', 'Apna Basket') }}</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
@@ -30,7 +30,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-            <h5 class="my-0 mr-md-auto font-weight-normal">Big Basket</h5>
+            <h5 class="my-0 mr-md-auto font-weight-normal">Apna Basket</h5>
                
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -117,14 +117,12 @@
                                 <a class="dropdown-item" href="/myOrders">My Orders</a>
                                 <a class="dropdown-item" href="/mcart">My Cart</a>
                                 <a class="dropdown-item" href="#">My Rewards</a>
+                                <a class="dropdown-item" href="/MyLikes">My Likes Items</a>
 
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a>
-                                
-
-                            
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
                                 </form>

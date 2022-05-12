@@ -75,19 +75,4 @@
                <p>No Ratings Yet!</p>
           @endforelse
      </div>
-
-     <div class="container">
-          <h4>Reviews And Ratings</h4>
-          <hr>
-          <hr>
-          @forelse($item->likes as $like)
-               <p class="text-muted">
-               {{$review->content}} <br>Rating:{{$review->rating}} Out Of 5
-               </p>
-               <hr>
-          @empty
-               <p>No Ratings Yet!</p>
-          @endforelse
-     </div>
-
 @endsection('content')

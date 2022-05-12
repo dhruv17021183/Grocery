@@ -27,7 +27,8 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         
-        
+        DB::table('orders')->where('user_id',$request->user()->id)->where('item_id',$request->itemid)->delete();
+        // dd($delete);
         $request->validate([
 
             'qty' => 'required',
@@ -63,9 +64,23 @@ class OrderController extends Controller
         ->select('*')
         ->get();
 
-        
+        $itemsC = DB::table('items')->select('price')->where('id',$request->itemid)->get()->pluck('price')->toArray();
+        $quantity = DB::table('orders')->select('qty')->where('item_id',$request->itemid)->get()->pluck('qty')->toArray();
+
+        // dd($quantity);
+    
+        if($request->promo === "FIRST50")
+        {
+            $price = $itemsC[0] * $quantity[0] * 0.5;
+            // dd($price);
+        }
+        else
+        {
+            $price = $itemsC[0] * $quantity[0];
+            // dd($price);
+        }
         // dd($items);
-        return view('order.confirm',['itemId' => $items]);
+        return view('order.confirm',['item' => $items,'price' => $price]);
     
     }
     // public function orderConfirm()
@@ -74,6 +89,7 @@ class OrderController extends Controller
     // }
     public function orderConfirm(Request $request)
     {
+        
         DB::table('orders')->where('user_id',$request->user()->id)->where('item_id',$request->itemid)->update(['is_confirm'=>true]);
 
         $orderId = DB::table('orders')->select('*')
@@ -90,23 +106,26 @@ class OrderController extends Controller
         
         return view('order.place',['userorder' => $orderId]);
     }
+
     public function reedem(Request $request)
     {
-        $items = DB::table('items')->select('price')->where('id',$request->item_id)->get()->pluck('price')->toArray();
-        $quantity = DB::table('orders')->select('qty')->where('item_id',$request->item_id)->get()->pluck('qty')->toArray();
+        $items = DB::table('items')->select('price')->where('id',$request->itemid)->get()->pluck('price')->toArray();
+        $quantity = DB::table('orders')->select('qty')->where('item_id',$request->itemid)->get()->pluck('qty')->toArray();
 
+        // dd($quantity);
+    
         if($request->promo === "FIRST50")
         {
             $price = $items[0] * $quantity[0] * 0.5;
+            // dd($price);
         }
         else
         {
             $price = $items[0] * $quantity[0];
-            dd($price);
+            // dd($price);
         }
-        dd($price);
-
-        // return view('order.promo');
+        // dd($price);
+        return view('order.confirm',['price' => $price]);
     }
     public function UsersOrder(Request $request)
     {

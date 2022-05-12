@@ -1,16 +1,18 @@
 @include('layouts')
 
-@foreach($itemId as $item)
+{{-- @foreach($itemId as $item) --}}
+
+
           <div class="card box" style="width: 15rem;">
              
-               <img src="{{ Storage::url($item->path) }}" class="card-img-top" alt="...">
+               <img src="{{ Storage::url($item[0]->path) }}" class="card-img-top" alt="...">
                <div class="card-body">
-                    <h5 class="card-title"><a href="{{ route('items.show', ['item' => $item->item_id]) }}" class="text-decoration-none">{{ $item->item_name }}</a></h5>
-                    <p class="card-text">{{ $item->item_content }}</p>
-                    <p class="card-text">{{ $item->item_category }}</p>
+                    <h5 class="card-title"><a href="{{ route('items.show', ['item' => $item[0]->item_id]) }}" class="text-decoration-none">{{ $item[0]->item_name }}</a></h5>
+                    <p class="card-text">{{ $item[0]->item_content }}</p>
+                    <p class="card-text">{{ $item[0]->item_category }}</p>
                </div>
                <ul class="list-group">
-                    <li class="list-group-item">1 Kg - Rs {{ $item->price }}</li>
+                    <li class="list-group-item">1 Kg - Rs {{ $item[0]->price }}</li>
                     
                </ul>
                
@@ -25,32 +27,40 @@
               <ul class="list-group mb-3">
                 <li class="list-group-item d-flex justify-content-between lh-sm">
                   <div>
-                    <h6 class="my-0">{{ $item->item_name }}</h6>
-                    <small class="text-muted">{{ $item->item_content }}</small>
+                    <h6 class="my-0">{{ $item[0]->item_name }}</h6>
+                    <small class="text-muted">{{ $item[0]->item_content }}</small>
                   </div>
-                  <span class="text-muted">1 Kg - Rs {{ $item->price }} </span>
+                  <span class="text-muted">1 Kg - Rs {{ $item[0]->price }} </span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between bg-light">
                   <div class="text-success">
                     <small>Use FIRST50 </small>
                     <h6 class="my-0">To Get 50% Off On Your First Order</h6>
                   </div>
-                  <span class="text-success">Rs {{ $item->price * $item->qty * 0.5 }}</span>
+                  <span class="text-success">Rs {{ $item[0]->price * $item[0]->qty * 0.5 }}</span>
                 </li>
                 <li class="list-group-item d-flex justify-content-between">
                   <span>Total (Rs)</span>
                  
-                  <strong>{{ $item->price * $item->qty }}</strong>
+                  <strong>{{ $item[0]->price * $item[0]->qty }}</strong>
               </li>
               <li class="list-group-item d-flex justify-content-between">
                 <span>You Save </span>
                
-                <strong>{{ ($item->price* $item->qty) - ($item->price * $item->qty * 0.5) }} Rs On This Order</strong>
+                <strong>{{ ($item[0]->price* $item[0]->qty) - ($item[0]->price * $item[0]->qty * 0.5) }} Rs On This Order</strong>
+                <h4>{{ $price}}</h4>
              </li>
-             <form method="POST" action="{{ route('confirm',['item' => $item->item_id] )}}">
+             <form class="card p-2" action="{{ route('confirm') }}" method="get">
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Promo code" name="promo">
+                  <input type="hidden" value="{{ $item[0]->item_id}} " name="itemid">
+                  <button type="submit" class="btn btn-secondary">Redeem</button>
+                </div>
+             </form>
+             <form method="POST" action="{{ route('confirm',['item' => $item[0]->item_id] )}}">
                     
                 @csrf
-                <input type="hidden" value="{{ $item->item_id}} " name="itemid">
+                <input type="hidden" value="{{ $item[0]->item_id}} " name="itemid">
               <button type="submit" class="btn btn-success mt-2">Place Order</button>
 
              </form>
@@ -58,4 +68,4 @@
             </div>
         </div>
     </div>
-    @endforeach
+    {{-- @endforeach --}}

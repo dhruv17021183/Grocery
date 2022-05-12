@@ -46,6 +46,8 @@ Route::get('redeem',[OrderController::class,'reedem'])->name('reedem');
 Route::get('search',[PostController::class,'search'])->name('search');
 Route::post('confirm',[OrderController::class,'orderConfirm'])->name('confirm');
 Route::get('myOrders',[OrderController::class,'UsersOrder'])->name('myorders');
+Route::get('MyLikes',[PostController::class,'mylikes'])->name('mylikes');
+Route::get('RemoveLike',[PostController::class,'removeLike'])->name('removeLike');
 Route::get('filter',[PostController::class,'filterBypriceLow'])->name('filter');
 
 //like

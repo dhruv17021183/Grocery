@@ -17,6 +17,25 @@ class PostController extends Controller
         $this->middleware('auth')
             ->only(['create', 'store', 'edit', 'update', 'destroy']);
     }
+
+    public function mylikes(Request $request)
+    {
+        // dd($request->user()->id);
+        // $item = new Item;
+        $likes = DB::table('likes')->select('*')->where('user_id',$request->user()->id)->get()->pluck('item_id')->toArray();
+        // dd($likes);
+        $items = Item::findOrFail($likes);
+        
+        return view('users.mylikes',['items' => $items]);
+    }
+
+    public function removeLike(Request $request)
+    {
+
+        $likes = DB::table('likes')->where('item_id',$request->item_id)->where('user_id',$request->user()->id)->delete();
+        return redirect()->back();
+    }
+    
     public function filterBypriceLow(Request $request)
     {
         if($request->filter == 'LH')
@@ -56,7 +75,13 @@ class PostController extends Controller
 
     public function index()
     {
-        $items = Item::withCount('likes')->with('likes')->get();
+        // $items = Item::withCount('likes')->get();
+        $items = Item::withCount('likes')->get(); 
+        // foreach ($items as $item)
+        // { 
+        //     dump($item->likes_count); 
+        // }
+        // die;
         // dd($items);
         
         return view('item.index', ['items' => $items]);
