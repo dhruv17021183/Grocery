@@ -77,6 +77,7 @@ class PostController extends Controller
     {
         // $items = Item::withCount('likes')->get();
         $items = Item::withCount('likes')->get(); 
+        // dd($items);
         // foreach ($items as $item)
         // { 
         //     dump($item->likes_count); 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\ReviewItem;
 use App\Mail\orderPurchase;
 use App\Models\Order;
 use App\Models\Item;
@@ -21,7 +22,9 @@ class OrderController extends Controller
 
     public function orderdetails($id,Request $request)
     {
-        return view('order.order',['item_id' => $id]);
+        $item = Item::findOrFail($id);
+        // dd($item);
+        return view('order.order',['item_id' => $id,'item' => $item]);
     }
 
     public function store(Request $request)
@@ -97,12 +100,18 @@ class OrderController extends Controller
                                         ->where('item_id',$request->itemid)
                                         ->where('is_confirm',true)->get();
 
-        $user = User::findOrFail($request->user()->id)->get();
+                                        
+        // $user = User::findOrFail($request->user()->id)->get();
+        $user = DB::table('users')->select('email')->where('id',$request->user()->id)->get();
+
+        // dd($orderId[0]->item_id);
 
         Mail::to($user[0]->email)->send(
             new orderPurchase($orderId)
         );
-        
+        $email = $user[0]->email;
+        // dd($orderId);
+        ReviewItem::dispatch($orderId,$email);
         
         return view('order.place',['userorder' => $orderId]);
     }

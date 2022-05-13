@@ -7,19 +7,20 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class OrderStatus extends Mailable implements ShouldQueue
+class UserReview extends Mailable
 {
     use Queueable, SerializesModels;
-    public $status;
 
+    public $item;
+    // public $email;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($status)
+    public function __construct($item)
     {
-        $this->status = $status;
+        $this->item = $item;
     }
 
     /**
@@ -29,9 +30,6 @@ class OrderStatus extends Mailable implements ShouldQueue
      */
     public function build()
     {
-        $subject = "Order Purchase Successfully. Order Status Is {$this->status} ";
-
-        return $this->subject($subject)
-                    ->view('emails.status');
+        return $this->view('email.review');
     }
 }

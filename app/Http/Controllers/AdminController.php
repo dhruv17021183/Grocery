@@ -43,15 +43,15 @@ class AdminController extends Controller
 
         DB::table('orders')->where('user_id', $request->user_id)->where('item_id', $request->item_id)->update(['status' => $request->status]);
 
-        // dd($request->item_id);
         $user = DB::table('users')->select('*')->where('id', $request->user_id)->get();
 
         $status = DB::table('orders')->where('user_id', $request->user_id)->where('item_id', $request->item_id)->get();
 
+        // dd($user);
 
-        // Mail::to($user[0]->email)->send(
-        //     new OrderStatus($status[0]->status)
-        // );
+        Mail::to($user[0]->email)->send(
+            new OrderStatus($status[0]->status)
+        );
 
         if ($status[0]->status == "Delivered")
         {

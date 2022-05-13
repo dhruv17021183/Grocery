@@ -2,7 +2,6 @@
 
 {{-- @foreach($itemId as $item) --}}
 
-
           <div class="card box" style="width: 15rem;">
              
                <img src="{{ Storage::url($item[0]->path) }}" class="card-img-top" alt="...">
@@ -42,7 +41,7 @@
                 <li class="list-group-item d-flex justify-content-between">
                   <span>Total (Rs)</span>
                  
-                  <strong>{{ $item[0]->price * $item[0]->qty }}</strong>
+                  <strong>{{ ($item[0]->price * $item[0]->qty) - ($price) }}</strong>
               </li>
               <li class="list-group-item d-flex justify-content-between">
                 <span>You Save </span>
@@ -50,7 +49,8 @@
                 <strong>{{ ($item[0]->price* $item[0]->qty) - ($item[0]->price * $item[0]->qty * 0.5) }} Rs On This Order</strong>
                 <h4>{{ $price}}</h4>
              </li>
-             <form class="card p-2" action="{{ route('confirm') }}" method="get">
+             <form class="card p-2" action="{{ route('confirm') }}" method="post">
+                @csrf
                 <div class="input-group">
                   <input type="text" class="form-control" placeholder="Promo code" name="promo">
                   <input type="hidden" value="{{ $item[0]->item_id}} " name="itemid">
@@ -68,4 +68,5 @@
             </div>
         </div>
     </div>
+    
     {{-- @endforeach --}}

@@ -56,7 +56,7 @@
                             @include('search.search')
                         {{-- </div> --}}
                         <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button class="btn btn-outline-dark dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                 Shop By Category
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
@@ -72,13 +72,15 @@
                         </div>
 
                         <div class="container">
-                            <a href="/mcart" class="btn btn-primary">
+                            <a href="/mcart" class="btn btn-outline-dark">
+                                <i class="bi-cart-fill me-1"></i>
                                 Cart
+                                <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                             </a>
                         </div>
 
                         <div class="container">
-                            <a href="{{ route('items.index') }}" class="btn btn-primary">
+                            <a href="{{ route('items.index') }}" class="btn btn-outline-dark">
                                 Items
                             </a>
                         </div>
@@ -91,7 +93,7 @@
                             </select>
                         
                             
-                            <button type="submit" class="btn btn-success">Filter</button>
+                            <button type="submit" class="btn btn-outline-dark">Filter</button>
                         </div>
                     </form>
                         @guest

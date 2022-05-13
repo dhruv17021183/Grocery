@@ -15,7 +15,11 @@ class ItemCartController extends Controller
         $this->middleware('auth')
             ->only(['usercart', 'mycart', 'removeCart']);
     }
-    
+    // public function cartNumber(Request $request)
+    // {
+    //    $count = DB::table('carts')->where('user_id',$request->user()->id)->count('item_id');
+    //     return view('')
+    // }
     public function usercart(Item $item,Request $request)
     {
         $cart = new Cart;
