@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\OrderStatus;
+use App\Mail\userDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -88,8 +89,17 @@ class AdminController extends Controller
             ];
 
             // return view('pdf.mypdf',$data);
+           
+            // $path = "User_{$request->user_id}";
             $pdf = PDF::loadView('pdf.mypdf',$data);
            
+            // Mail::to($user[0]->email)->send(
+            //     new userDetails($pdf)
+            // );
+            Mail::send('pdf.mypdf',$data,function($message) use ($data,$pdf){
+                $message->to($data['email'])
+                         ->attachData($pdf->output(),'Bill.pdf');
+            });
             // dd($data);
             return $pdf->download('Bill.pdf');
            

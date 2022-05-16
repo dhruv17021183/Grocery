@@ -99,7 +99,7 @@
         <div class="brand-section">
             <div class="row">
                 <div class="col-6">
-                    <h1 class="text-white">BIG BASKET</h1>
+                    <h1 class="text-white">APNA BASKET</h1>
                 </div>
             </div>
         </div>

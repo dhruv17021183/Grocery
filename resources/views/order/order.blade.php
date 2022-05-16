@@ -63,9 +63,13 @@
               </div>
             </div>
           </li>
+           <li class="list-group-item d-flex justify-content-between">
+            <span>TAX (RS)</span>
+            <strong>{{ $item->price * .1 }} Rs Per Item</strong>
+          </li>
           <li class="list-group-item d-flex justify-content-between">
             <span>Total (RS)</span>
-            <strong>{{ $item->price}} Rs Per Item</strong>
+            <strong>{{ $item->price + ($item->price * .1)}} Rs Per Item</strong>
           </li>
         </ul>
 

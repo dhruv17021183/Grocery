@@ -10,6 +10,7 @@ use App\Http\Controllers\ItemCartController;
 use App\Http\Controllers\ItemLikeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PDFController;
+use App\Http\Controllers\StripeController;
 use App\Models\Order;
 
 /*
@@ -49,6 +50,8 @@ Route::get('myOrders',[OrderController::class,'UsersOrder'])->name('myorders');
 Route::get('MyLikes',[PostController::class,'mylikes'])->name('mylikes');
 Route::get('RemoveLike',[PostController::class,'removeLike'])->name('removeLike');
 Route::get('filter',[PostController::class,'filterBypriceLow'])->name('filter');
+Route::post('debit',[StripeController::class,'Pdebit'])->name('debit');
+Route::post('cod',[StripeController::class,'cod'])->name('cod');
 
 //like
 Route::get('likes',[ItemLikeController::class,'il'])->name('likes');

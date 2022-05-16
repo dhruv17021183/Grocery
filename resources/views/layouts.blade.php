@@ -17,12 +17,15 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" /> --}}
+
     
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/mcss.css') }}" rel="stylesheet">
     <link href="{{ asset('css/like.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/payment.css') }}" rel="stylesheet">
 
 </head>
 
@@ -75,7 +78,7 @@
                             <a href="/mcart" class="btn btn-outline-dark">
                                 <i class="bi-cart-fill me-1"></i>
                                 Cart
-                                <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+                                {{-- <span class="badge bg-dark text-white ms-1 rounded-pill">0</span> --}}
                             </a>
                         </div>
 

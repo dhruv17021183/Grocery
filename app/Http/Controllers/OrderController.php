@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\ReviewItem;
+use App\Mail\Bill;
 use App\Mail\orderPurchase;
 use App\Models\Order;
 use App\Models\Item;
@@ -105,15 +106,37 @@ class OrderController extends Controller
         $user = DB::table('users')->select('email')->where('id',$request->user()->id)->get();
 
         // dd($orderId[0]->item_id);
+        $items = DB::table('items')
+        ->join('orders','orders.item_id','=','items.id')
+        ->join('images','images.imageable_id','=','items.id')
+        ->where('orders.item_id','=',$request->itemid)
+        ->where('orders.user_id',$request->user()->id)
+        ->distinct()
+        ->select('*')
+        ->get();
 
-        Mail::to($user[0]->email)->send(
-            new orderPurchase($orderId)
-        );
-        $email = $user[0]->email;
-        // dd($orderId);
-        ReviewItem::dispatch($orderId,$email);
+        $price = $items[0]->price*$items[0]->qty;
         
-        return view('order.place',['userorder' => $orderId]);
+
+        // Mail::to($user[0]->email)->send(
+        //     new orderPurchase($orderId)
+        // );
+        // Mail::to($user[0]->email)->send(
+        //     new Bill($items)
+        // );
+        // $email = $user[0]->email;
+        // dd($orderId);
+        // ReviewItem::dispatch($orderId,$email);
+        // dd($request->all());
+        if($request->payment == 'Debit')
+        {
+            return view('stripe.debit',['price' => $price]);
+            // return redirect()->route('debit');
+        }
+        else
+        {
+            return view('order.place',['userorder' => $orderId]);
+        }
     }
 
     public function reedem(Request $request)
