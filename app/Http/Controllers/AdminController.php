@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\OrderStatus;
 use App\Mail\userDetails;
+use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -18,8 +19,11 @@ class AdminController extends Controller
             ->join('orders', 'orders.item_id', '=', 'items.id')
             ->where('items.user_id', $request->user()->id)
             ->where('orders.is_confirm', true)
+            ->where('orders.is_delivered',false)
             ->select('*')
             ->get();
+
+        // dd($orders);
 
         $date1 = Carbon::now()->format('Y-m-d');
 
@@ -41,14 +45,14 @@ class AdminController extends Controller
     public function status(Request $request)
     {
 
-
+        
         DB::table('orders')->where('user_id', $request->user_id)->where('item_id', $request->item_id)->update(['status' => $request->status]);
 
         $user = DB::table('users')->select('*')->where('id', $request->user_id)->get();
 
         $status = DB::table('orders')->where('user_id', $request->user_id)->where('item_id', $request->item_id)->get();
 
-        // dd($user);
+        // dd($status[0]->status);
 
         Mail::to($user[0]->email)->send(
             new OrderStatus($status[0]->status)
@@ -57,9 +61,14 @@ class AdminController extends Controller
         if ($status[0]->status == "Delivered")
         {
           
+            DB::table('orders')->where('user_id', $request->user_id)->where('item_id', $request->item_id)->update(['is_delivered' => true]);   //if status is delivered than change in to the database 
+
+            // dd($delivered);
+
             $items = DB::table('items')
             ->join('orders', 'orders.item_id', '=', 'items.id')
             ->where('orders.item_id',$request->item_id)
+            ->where('orders.user_id',$request->user_id)
             ->select('*')
             ->get();
 
@@ -70,7 +79,7 @@ class AdminController extends Controller
                     ->where('id',$request->user_id)
                     ->get();
 
-           
+
 
             $data = [
 
@@ -86,10 +95,11 @@ class AdminController extends Controller
                 'userLname' => $user[0]->lastname,
                 'mobileNumber' => $user[0]->MobileNumber,
                 'email' => $user[0]->email,
+          
             ];
 
+            // dd($data);
             // return view('pdf.mypdf',$data);
-           
             // $path = "User_{$request->user_id}";
             $pdf = PDF::loadView('pdf.mypdf',$data);
            
@@ -100,28 +110,39 @@ class AdminController extends Controller
                 $message->to($data['email'])
                          ->attachData($pdf->output(),'Bill.pdf');
             });
-            // dd($data);
             return $pdf->download('Bill.pdf');
-           
+
         }
-        else
-        {
-            dd('else');
-        }
+        // else
+        // {
+        //     dd('else');
+        // }
 
         return redirect()->back();
     }
     public function dashboard(Request $request)
     {
-        $revenue = DB::table('items')
+        $revenues = DB::table('items')
             ->join('orders', 'orders.item_id', '=', 'items.id')
             ->where('items.user_id', $request->user()->id)
             ->where('orders.is_confirm', true)
             ->select('*')
             ->get();
 
-        $orders = DB::table('orders')->select('status')->where('status', '<>', 'Delivered')->get()->count();           // Pending orders
+    
+        $total = 0;
+        
+        foreach($revenues as $revenue)
+        {
+            $total = $total + ($revenue->qty*$revenue->price);
+        }
 
-        return view('admin.dashboard', ['orders' => $revenue, 'orders' => $orders]);
+        $items = DB::table('items')->select('*')->where('user_id',$request->user()->id)->get()->count();
+        
+        
+        $orders = DB::table('orders')->select('status')->where('status', '<>', 'Delivered')->get()->count(); 
+        // dd($orders);          // Pending orders
+
+        return view('admin.dashboard', ['total' => $total ,'items' => $items,'orders' => $orders]);
     }
 }

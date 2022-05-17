@@ -64,27 +64,30 @@ class OrderController extends Controller
         ->join('orders','orders.item_id','=','items.id')
         ->join('images','images.imageable_id','=','items.id')
         ->where('orders.item_id','=',$request->itemid)
+        ->where('orders.user_id',$request->user()->id)
         ->distinct()
         ->select('*')
         ->get();
 
+        // dd($items);
+
         $itemsC = DB::table('items')->select('price')->where('id',$request->itemid)->get()->pluck('price')->toArray();
-        $quantity = DB::table('orders')->select('qty')->where('item_id',$request->itemid)->get()->pluck('qty')->toArray();
+        $quantity = DB::table('orders')->select('qty')->where('item_id',$request->itemid)->where('user_id',$request->user()->id)->get();
 
         // dd($quantity);
     
-        if($request->promo === "FIRST50")
-        {
-            $price = $itemsC[0] * $quantity[0] * 0.5;
-            // dd($price);
-        }
-        else
-        {
-            $price = $itemsC[0] * $quantity[0];
-            // dd($price);
-        }
+        // if($request->promo === "FIRST50")
+        // {
+        //     $price = $itemsC[0] * $quantity[0] * 0.5;
+        //     // dd($price);
+        // }
+        // else
+        // {
+        //     $price = $itemsC[0] * $quantity[0];
+        //     // dd($price);
+        // }
         // dd($items);
-        return view('order.confirm',['item' => $items,'price' => $price]);
+        return view('order.confirm',['item' => $items]);
     
     }
     // public function orderConfirm()
@@ -130,6 +133,7 @@ class OrderController extends Controller
         // dd($request->all());
         if($request->payment == 'Debit')
         {
+            // dd($price);
             return view('stripe.debit',['price' => $price]);
             // return redirect()->route('debit');
         }
@@ -139,26 +143,26 @@ class OrderController extends Controller
         }
     }
 
-    public function reedem(Request $request)
-    {
-        $items = DB::table('items')->select('price')->where('id',$request->itemid)->get()->pluck('price')->toArray();
-        $quantity = DB::table('orders')->select('qty')->where('item_id',$request->itemid)->get()->pluck('qty')->toArray();
+    // public function reedem(Request $request)
+    // {
+    //     $items = DB::table('items')->select('price')->where('id',$request->itemid)->get()->pluck('price')->toArray();
+    //     $quantity = DB::table('orders')->select('qty')->where('item_id',$request->itemid)->get()->pluck('qty')->toArray();
 
-        // dd($quantity);
+    //     // dd($quantity);
     
-        if($request->promo === "FIRST50")
-        {
-            $price = $items[0] * $quantity[0] * 0.5;
-            // dd($price);
-        }
-        else
-        {
-            $price = $items[0] * $quantity[0];
-            // dd($price);
-        }
-        // dd($price);
-        return view('order.confirm',['price' => $price]);
-    }
+    //     if($request->promo === "FIRST50")
+    //     {
+    //         $price = $items[0] * $quantity[0] * 0.5;
+    //         // dd($price);
+    //     }
+    //     else
+    //     {
+    //         $price = $items[0] * $quantity[0];
+    //         // dd($price);
+    //     }
+    //     // dd($price);
+    //     return view('order.confirm',['price' => $price]);
+    // }
     public function UsersOrder(Request $request)
     {
         // $user = User::find($request->user()->id);

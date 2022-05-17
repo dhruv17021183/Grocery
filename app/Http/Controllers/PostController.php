@@ -76,7 +76,7 @@ class PostController extends Controller
     public function index()
     {
         // $items = Item::withCount('likes')->get();
-        $items = Item::withCount('likes')->get(); 
+        $items = Item::latest()->withCount('likes')->withCount('reviews')->get(); 
         // dd($items);
         // foreach ($items as $item)
         // { 

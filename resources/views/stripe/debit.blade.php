@@ -1,60 +1,107 @@
 @include('layouts')
-
-<div class="container">
-    <!-- For demo purpose -->
-    <div class="row mb-2">
-        <div class="col-lg-8 mx-auto text-center">
-            <h4 class="display-6">Debit Card Payment</h4>
-        </div>
-    </div> <!-- End -->
-    <div class="row">
-        <div class="col-lg-6 mx-auto">
-            <div class="card ">
-                <div class="card-header">
-                    <div class="bg-white shadow-sm pt-4 pl-2 pr-2 pb-2">
-                        <!-- Credit card form tabs -->
-                        <ul role="tablist" class="nav bg-light nav-pills rounded nav-fill mb-3">
-                            <li class="nav-item"> <a data-toggle="pill" href="#credit-card" class="nav-link active "> <i class="fas fa-credit-card mr-2"></i> Debit Card </a> </li>
-                        </ul>
-                    </div> <!-- End -->
-                    <!-- Credit card form content -->
-                    <div class="tab-content">
-                        <!-- credit card info-->
-                        <div id="credit-card" class="tab-pane fade show active pt-3">
-                            <form action="{{ route('debit') }}" method="POST" enctype="multipart/form-data">
-                                @csrf
-
-                                <div class="form-group"> <label for="username">
-                                        <h6>Card Owner</h6>
-                                    </label> <input type="text" name="username" placeholder="Card Owner Name" required class="form-control "> </div>
-                                <div class="form-group"> <label for="cardNumber">
-                                        <h6>Card number</h6>
-                                    </label>
-                                    <div class="input-group"> <input type="text" name="cardNumber" placeholder="Valid card number" class="form-control " required>
-                                        <div class="input-group-append"> <span class="input-group-text text-muted"> <i class="fab fa-cc-visa mx-1"></i> <i class="fab fa-cc-mastercard mx-1"></i> <i class="fab fa-cc-amex mx-1"></i> </span> </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-8">
-                                        <div class="form-group"> <label><span class="hidden-xs">
-                                                    <h6>Expiration Date</h6>
-                                                </span></label>
-                                            <div class="input-group"> <input type="number" placeholder="MM" name="" class="form-control" required> <input type="number" placeholder="YY" name="" class="form-control" required> </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="form-group mb-4"> <label data-toggle="tooltip" title="Three digit CV code on the back of your card">
-                                                <h6>CVV <i class="fa fa-question-circle d-inline"></i></h6>
-                                            </label> <input type="text" required class="form-control"> </div>
-                                    </div>
-                                </div>
-                                <div class="card-footer"> <button type="submit" class="subscribe btn btn-primary btn-block shadow-sm"> Pay Rs {{ $price }} </button>
-                            </form>
-                        </div>
+    <body>
+        @php
+            $stripe_key = 'put your publishable key here';
+        @endphp
+        <div class="container" style="margin-top:10%;margin-bottom:10%">
+            <div class="row justify-content-center">
+                <div class="col-md-12">
+                    <div class="">
+                        {{-- <p>You will be charged rs {{ $price ?? '' }} </p> --}}
                     </div>
-                        <p class="text-muted">Note: After clicking on the button, you will be directed to a secure gateway for payment. After completing the payment process, you will be redirected back to the website to view details of your order. </p>
-                    </div> 
+                    <div class="card">
+                        <form action="{{ route('debit')}}"  method="post" id="payment-form" enctype="multipart/form-data" data-stripe-publishable-key="{{ env('STRIPE_KEY') }}">
+                            @csrf                    
+                            <div class="form-group">
+                                <div class="card-header">
+                                    <label for="card-element">
+                                        Enter your credit card information
+                                    </label>
+                                </div>
+                                <div class="card-body">
+                                    <div id="card-element">
+                                    <!-- A Stripe Element will be inserted here. -->
+                                    </div>
+                                    <div id="card-errors" role="alert"></div>
+                                    <input type="hidden" name="plan" value="" />
+                                </div>
+                            </div>
+                            <input type="hidden" value="{{ $price ?? '' }}" name = "price">
+                            <div class="card-footer">
+                              <button
+                              type="submit"
+                              id="card-button"
+                              class="btn btn-dark"
+                              data-secret={{ $intent ?? '' }}
+                            > Pay </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+        <script src="https://js.stripe.com/v3/"></script>
+        <script>
+            // Custom styling can be passed to options when creating an Element.
+            // (Note that this demo uses a wider set of styles than the guide below.)
+    
+            var style = {
+                base: {
+                    color: '#32325d',
+                    lineHeight: '18px',
+                    fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                    fontSmoothing: 'antialiased',
+                    fontSize: '16px',
+                    '::placeholder': {
+                        color: '#aab7c4'
+                    }
+                },
+                invalid: {
+                    color: '#fa755a',
+                    iconColor: '#fa755a'
+                }
+            };
+        
+            const stripe = Stripe('{{ env('STRIPE_KEY') }}', { locale: 'en' }); // Create a Stripe client.
+            const elements = stripe.elements(); // Create an instance of Elements.
+            const cardElement = elements.create('card', { style: style }); // Create an instance of the card Element.
+            const cardButton = document.getElementById('card-button');
+            const clientSecret = cardButton.dataset.secret;
+        
+            cardElement.mount('#card-element'); // Add an instance of the card Element into the `card-element` <div>.
+        
+            // Handle real-time validation errors from the card Element.
+            cardElement.addEventListener('change', function(event) {
+                var displayError = document.getElementById('card-errors');
+                if (event.error) {
+                    displayError.textContent = event.error.message;
+                } else {
+                    displayError.textContent = '';
+                }
+            });
+        
+            // Handle form submission.
+            var form = document.getElementById('payment-form');
+        
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+        
+            stripe.handleCardPayment(clientSecret, cardElement, {
+                    payment_method_data: {
+                        //billing_details: { name: cardHolderName.value }
+                    }
+                })
+                .then(function(result) {
+                    console.log(result);
+                    if (result.error) {
+                        // Inform the user if there was an error.
+                        var errorElement = document.getElementById('card-errors');
+                        errorElement.textContent = result.error.message;
+                    } else {
+                        console.log(result);
+                        form.submit();
+                    }
+                });
+            });
+        </script>
+    </body>

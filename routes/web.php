@@ -24,11 +24,9 @@ use App\Models\Order;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-
+// Route::get('/pdf', function () {
+//     return view('pdf.mypdf');
+// });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
 Route::get('/reset',[OtpController::class,'Otp'])->middleware('auth');
