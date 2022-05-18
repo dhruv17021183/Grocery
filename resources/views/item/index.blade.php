@@ -72,7 +72,7 @@
                                         <h5 class="fw-bolder">{{ $item->item_content }}</h5>
                                         <h6 class="text-muted">{{ $item->item_category }}</h6>
                                         <!-- Product price-->
-                                        1 Kg - Rs {{ $item->price }}
+                                        {{$item->unit}} - Rs {{ $item->price }}
                                         </div>
                                    </div>
                                    <!-- Product actions-->

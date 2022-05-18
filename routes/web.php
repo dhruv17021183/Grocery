@@ -24,9 +24,9 @@ use App\Models\Order;
 |
 */
 
-// Route::get('/pdf', function () {
-//     return view('pdf.mypdf');
-// });
+Route::get('/', function () {
+    return view('welcome');
+});
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
 Route::get('/reset',[OtpController::class,'Otp'])->middleware('auth');
@@ -45,6 +45,7 @@ Route::post('redeem',[OrderController::class,'reedem'])->name('reedem');
 Route::get('search',[PostController::class,'search'])->name('search');
 Route::post('confirm',[OrderController::class,'orderConfirm'])->name('confirm');
 Route::get('myOrders',[OrderController::class,'UsersOrder'])->name('myorders');
+Route::post('cancelOrder',[OrderController::class,'cancelOrder'])->name('cancelorder');
 Route::get('MyLikes',[PostController::class,'mylikes'])->name('mylikes');
 Route::get('RemoveLike',[PostController::class,'removeLike'])->name('removeLike');
 Route::get('filter',[PostController::class,'filterBypriceLow'])->name('filter');

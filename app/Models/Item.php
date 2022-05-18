@@ -13,6 +13,7 @@ class Item extends Model
         'item_content',
         'item_category',
         'price',
+        'unit',
         'status',
         'user_id',
         'item_id',

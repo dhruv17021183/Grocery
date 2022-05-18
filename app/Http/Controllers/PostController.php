@@ -66,9 +66,11 @@ class PostController extends Controller
                       ->pluck('id')
                       ->toArray();
 
+                      dd($id);
         $search = $request->search;
         // dd($search);
         $item = Item::findOrFail($id);
+        // dd($item);
 
         return view('search.show',['items' => $item,'search' => $search]);
     }
@@ -115,6 +117,7 @@ class PostController extends Controller
             'name' => 'required|min:2|max:20',
             'content' => 'required',
             'category' => 'required',
+            'unit' => 'required',
             'price' => 'required',
             'status' => 'required',
 
@@ -124,6 +127,7 @@ class PostController extends Controller
         $item->item_name = $request->input('name');
         $item->item_content = $request->input('content');
         $item->item_category = $request->input('category');
+        $item->unit = $request->input('unit');
         $item->price = $request->input('price');
         $item->status = $request->input('status');
         $item['user_id'] = $request->user()->id;

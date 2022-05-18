@@ -101,7 +101,8 @@ class AdminController extends Controller
             // dd($data);
             // return view('pdf.mypdf',$data);
             // $path = "User_{$request->user_id}";
-            $pdf = PDF::loadView('pdf.mypdf',$data);
+            // $pdf = PDF::loadView('pdf.mypdf','user');
+            // $array = array('')
            
             // Mail::to($user[0]->email)->send(
             //     new userDetails($pdf)

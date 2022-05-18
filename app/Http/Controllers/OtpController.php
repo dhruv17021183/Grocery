@@ -15,7 +15,7 @@ class OtpController extends Controller
         $this->middleware('auth');
     }
     
-    public function Otp(Request $request)
+    public function otp(Request $request)
     {
 
         $OtpNumber = random_int(100000,999999);
@@ -30,7 +30,7 @@ class OtpController extends Controller
         return view('reset');
     }
 
-    public function otpverify(Request $request)
+    public function otpVerify(Request $request)
     {
         $request->validate([
             'otp' => 'required|min:6|max:6',

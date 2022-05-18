@@ -11,7 +11,7 @@
                     <p class="card-text">{{ $item[0]->item_category }}</p>
                </div>
                <ul class="list-group">
-                    <li class="list-group-item">1 Kg - Rs {{ $item[0]->price }}</li>
+                    <li class="list-group-item">{{$item[0]->unit}} - Rs {{ $item[0]->price }}</li>
                     
                </ul>
                

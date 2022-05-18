@@ -26,7 +26,7 @@
                     <p class="card-text">{{ $item->item_category }}</p>
                </div>
                <ul class="list-group">
-                    <li class="list-group-item">1 Kg - Rs {{ $item->price }}</li>
+                    <li class="list-group-item">{{$item->unit}} - Rs {{ $item->price }}</li>
                     <li class="list-group-item">{{ $item->status }}</li>
                     
                     @can('view',$item)

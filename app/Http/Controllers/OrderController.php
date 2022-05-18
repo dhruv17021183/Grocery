@@ -175,10 +175,34 @@ class OrderController extends Controller
         return view('users.myorder',['orders' => $myorders]);
         
     }
-    
-    // public function generatePDF(Request $request)
-    // {
-    //     return view('pdf.mypdf');
-    // }
+
+    public function cancelOrder(Request $request)
+    {
+        
+        dump($request->item_id);
+        dump($request->user()->id);
+        die;
+        // $ab = DB::table('orders')->select('is_delivered')->where('user_id',$request->user()->id)->where('item_id',$request->item_id)->get();
+        // dd($ab[0]->is_delivered);
+        // $order = DB::table('orders')->where('user_id',$request->user()->id)->where('item_id',$request->item_id)->where('is_delivered',false)->get();
+
+        // $order = Order::findOrFail($request->order_id);
+
+        $order = Order::where('user_id',$request->user()->id)->where('item_id',$request->item_id)->get();
+
+        // dd($order);
+        // dd($order[0]->is_delivered);
+        if($order[0]->is_delivered == false)
+        {
+            dd('cancel success');
+        }
+        else
+        {
+            dd('not');
+        }
+
+
+        return redirect()->back();
+    }
   
 }

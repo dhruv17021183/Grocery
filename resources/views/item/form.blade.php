@@ -26,6 +26,11 @@
                     <option>Snacks & Branded Foods</option>
             </select>
     </div>
+    <div class="form-group">
+        <label>Enter Unit</label>
+        <input type="string" name="unit" class="form-control"
+            value="{{ old('price', $item->unit ?? null) }}"/>
+    </div>
 
     <div class="form-group">
         <label>Price</label>

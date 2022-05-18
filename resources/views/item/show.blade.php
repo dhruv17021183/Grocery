@@ -18,7 +18,7 @@
                <br><br>
                <div class="container">
                     <ul class="list-group list-group-flush">
-                         <li class="list-group-item">1 Kg - Rs {{ $item->price }}</li>
+                         <li class="list-group-item">{{$item->unit}} - Rs {{ $item->price }}</li>
                          <li class="list-group-item">{{ $item->status }}</li>
                     </ul>
                     <a href="{{ route('items.cart', ['item' => $item->id]) }}" class="btn btn-primary mt-2">
