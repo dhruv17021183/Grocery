@@ -28,6 +28,7 @@ class StripeController extends Controller
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
         		
 		$amount = $request->price;
+        // dd($amount);
 		$amount *= 100;
         $amount = (int) $amount;
         // dd($request->user()->id);
@@ -40,7 +41,7 @@ class StripeController extends Controller
 			'payment_method_types' => ['card'],
 		]);
 		$intent = $payment_intent->client_secret;
-        // dd($intent);
+        dd($intent);
     	Session::flash("success","Payment successfully!");
 
 

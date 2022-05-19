@@ -73,7 +73,7 @@
        @endforeach
     </div>
   </div>
-  <a href="#" class="btn btn-outline-success mt-auto">
+<a href="/buyAll" class="btn btn-outline-success mt-auto">
     BUY ALL
 </a> 
 </section>

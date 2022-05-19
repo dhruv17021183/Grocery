@@ -7,10 +7,10 @@
             <div class="row justify-content-center">
                 <div class="col-md-12">
                     <div class="">
-                        {{-- <p>You will be charged rs {{ $price ?? '' }} </p> --}}
+                        {{-- <p>You will be charged rs {{ $price ?? '' ?? '' }} </p> --}}
                     </div>
                     <div class="card">
-                        <form action="{{ route('debit')}}"  method="post" id="payment-form" enctype="multipart/form-data" data-stripe-publishable-key="{{ env('STRIPE_KEY') }}">
+                        <form action="{{ route('debit') }}"  method="post" id="payment-form" enctype="multipart/form-data" data-stripe-publishable-key="{{ env('STRIPE_KEY') }}">
                             @csrf                    
                             <div class="form-group">
                                 <div class="card-header">
@@ -30,7 +30,7 @@
                             <div class="card-footer">
                               <button
                               type="submit"
-                              id="card-button"
+                              {{-- id="card-button" --}}
                               class="btn btn-dark"
                               data-secret={{ $intent ?? '' }}
                             > Pay </button>

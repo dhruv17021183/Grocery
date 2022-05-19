@@ -15,11 +15,11 @@ class OtpController extends Controller
         $this->middleware('auth');
     }
     
-    public function otp(Request $request)
+    public function Otp(Request $request)
     {
 
         $OtpNumber = random_int(100000,999999);
-        $MobileNumber = DB::table('users')->select('MobileNumber')->where('id',$request->user()->id)->get();
+        $MobileNumber = DB::table('users')->select('MobileNumber')->where('id', $request->user()->id)->get();
         $Number = $MobileNumber[0]->MobileNumber;
 
         $data = Otp::Create([

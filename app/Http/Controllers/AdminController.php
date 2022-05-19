@@ -101,7 +101,7 @@ class AdminController extends Controller
             // dd($data);
             // return view('pdf.mypdf',$data);
             // $path = "User_{$request->user_id}";
-            // $pdf = PDF::loadView('pdf.mypdf','user');
+            $pdf = PDF::loadView('pdf.mypdf',$data);
             // $array = array('')
            
             // Mail::to($user[0]->email)->send(
@@ -111,6 +111,7 @@ class AdminController extends Controller
                 $message->to($data['email'])
                          ->attachData($pdf->output(),'Bill.pdf');
             });
+            
             return $pdf->download('Bill.pdf');
 
         }

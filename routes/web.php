@@ -27,7 +27,9 @@ use App\Models\Order;
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::get('/buyAll',function(){
+    return view('cart.buyall');
+});
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
 Route::get('/reset',[OtpController::class,'Otp'])->middleware('auth');
 Route::get('/otpverify',[OtpController::class,'otpverify'])->name('otpverify');
